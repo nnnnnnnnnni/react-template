@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { FC, Suspense, memo, cloneElement } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { FC, Suspense, memo, cloneElement, useMemo } from 'react';
 import { IRoute } from './config';
-import * as _ from 'lodash';
 
 export const CSuspense: FC = memo(({ children }) => {
     return (
@@ -12,20 +11,39 @@ export const CSuspense: FC = memo(({ children }) => {
 })
 
 interface RouterViewProps {
-    config?: IRoute[]
+    config: IRoute[];
+    index?: number;
+}
+
+const RouterView: FC<RouterViewProps> = ({ config, index }) => {
+    const _index = index || 0;
+    return (
+        <Switch>
+            {config.map((route, i) => (
+                <Route path={route.path} key={_index * 10 + i} exact={route.exact} render={(props) => {
+                    if (route.children && route.children.length) {
+                        return (
+                            <>
+                                {cloneElement(route.component, { ...props })}
+                                {RouterView({ config: route.children, index: _index * 10 })}
+                            </>
+                        );
+                    } else {
+                        return cloneElement(route.component, { ...props });
+                    }
+                }} />
+            ))}
+        </Switch>
+    )
 }
 
 export const RouterProvider: FC<RouterViewProps> = ({ config }) => {
-    const _config = _.cloneDeep(config as IRoute[]);
-    const _routes = _config.map((route, index) => {
-        return <Route path={route.path} render={(props) => (
-            <CSuspense>{cloneElement(route.component, props)}</CSuspense>
-        )} key={index}></Route>
-    })
-
-    return (
+    const _routes = useMemo(() => (
         <Router>
-            {_routes}
+            <CSuspense>
+                <RouterView config={config} index={0} />
+            </CSuspense>
         </Router>
-    )
+    ), [config])
+    return _routes
 }
