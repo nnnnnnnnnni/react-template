@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import { theme } from './default';
 
 export const GlobalStyle = createGlobalStyle`
 html, body {
@@ -13,9 +12,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
-  color: ${() => theme.text.primary};
 }
-
 
 button {
   border: none;
@@ -47,14 +44,6 @@ p, span {
 *::-webkit-scrollbar {
   width: 2px;
   border-radius: 2px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: ${({ theme }) => theme.colors.gray2};
-}
-
-*::-webkit-scrollbar-track {
-  background: ${({ theme }) => theme.colors.gray1};
 }
 
 h1, h2, h3, h4, h5, h6 {
