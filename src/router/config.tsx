@@ -17,27 +17,18 @@ export const routeConfig: IRoute[] = [
         path: '/',
         component: <Home />,
         title: '首页',
-        exact: false,
-        children: [
-            {
-                path: '/about',
-                component: <About />,
-                title: '关于',
-                exact: true,
-            },
-            {
-                path: '/user',
-                component: <User />,
-                title: '用户',
-                exact: false,
-                children: [
-                    {
-                        path: '/user/app',
-                        component: <App />,
-                        exact: true,
-                    }
-                ]
-            }
-        ]
+        exact: true,
+    },
+    {
+        path: '/about',
+        component: <About />,
+        title: '关于',
+        exact: true,
+    },
+    {
+        path: '/user',
+        component: <User />,
+        title: '用户',
+        exact: true,
     }
 ]

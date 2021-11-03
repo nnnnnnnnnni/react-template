@@ -1,21 +1,16 @@
-import React from 'react';
 import logo from '../logo.svg';
 import './App.css';
-import styled from 'styled-components'
+import { BaseBox } from '../components';
 
-const DIV = styled.p`
-  text-align: center;
-  color: red
-`
 
 function App() {
   return (
-    <div className="App">
+    <BaseBox className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <DIV>
+        <div>
           Edit <code>src/App.tsx</code> and save to reload.
-        </DIV>
+        </div>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -25,7 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+    </BaseBox>
   );
 }
 
