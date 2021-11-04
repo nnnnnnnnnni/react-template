@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { BaseBox } from '../components';
+import { BaseBox } from '../../components';
 
 const HeightBox = styled(BaseBox)`
     height: 100%;

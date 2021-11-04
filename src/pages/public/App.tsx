@@ -1,6 +1,5 @@
-import logo from '../logo.svg';
-import './App.css';
-import { BaseBox } from '../components';
+import logo from '../../logo.svg';
+import { BaseBox } from '../../components';
 
 
 function App() {

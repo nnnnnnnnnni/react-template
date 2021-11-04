@@ -7,10 +7,12 @@ export interface IRoute {
     children?: IRoute[];
     exact?: boolean;
 }
-const App = lazy(() => import('../pages/App'));
-const Home = lazy(() => import('../pages/home'));
-const User = lazy(() => import('../pages/user'));
-const About = lazy(() => import('../pages/about'));
+const Home = lazy(() => import('../pages/public/home'));
+const User = lazy(() => import('../pages/public/user'));
+const About = lazy(() => import('../pages/public/about'));
+
+const SiderBar = lazy(() => import('../pages/admin/sidebar'));
+const AdminUser = lazy(() => import('../pages/admin/user'));
 
 export const routeConfig: IRoute[] = [
     {
@@ -30,5 +32,19 @@ export const routeConfig: IRoute[] = [
         component: <User />,
         title: '用户',
         exact: true,
+    },
+    {
+        path: '/admin',
+        component: <SiderBar />,
+        title: '管理页',
+        exact: false,
+        children: [
+            {
+                path: '/admin/adminuser',
+                component: <AdminUser />,
+                title: '管理页-用户',
+                exact: false,
+            }
+        ]
     }
 ]

@@ -4,10 +4,16 @@ import './index.css';
 import { RouterProvider } from './router/routerProvider';
 import { routeConfig } from './router/config';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from 'styled-components'
+import { theme } from './components/style/theme';
+import { GlobalStyle } from './components/style/gobalStyle';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RouterProvider config={routeConfig} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <RouterProvider config={routeConfig} />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

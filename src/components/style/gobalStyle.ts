@@ -1,17 +1,23 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+
 html, body {
   margin: 0;
   padding: 0;
 
-  /* font */
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  font-family: nunito_for_arco,Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,微软雅黑,Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
+}
+
+#root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 button {
