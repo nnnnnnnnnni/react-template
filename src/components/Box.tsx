@@ -32,3 +32,13 @@ export const FlexBox = styled(BaseBox)<FlexBoxProps>`
   column-gap: ${({ columnGap }): number => columnGap || 0}px;
   flex-wrap: ${({ wrap }): string => wrap || 'wrap'};
 `;
+
+export const SpaceWidthBox = styled(BaseBox)<{ width: number }>`
+  width: ${({ width }) => `${width}px;`};
+  height: 100%;
+`
+
+export const SpaceHeightBox = styled(BaseBox)<{ height: number }>`
+  height: ${({ height }) => `${height}px;`};
+  width: 100%;
+`
