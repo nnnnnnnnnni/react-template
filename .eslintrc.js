@@ -1,5 +1,6 @@
 module.exports = {
   rules: {
+    'indent': ["error", 2],
     '@typescript-eslint/no-explicit-any': 'off',
     'react/prop-types': 'off',
     'header/header': 'off',

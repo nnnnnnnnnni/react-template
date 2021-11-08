@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import { RouterProvider } from './router/routerProvider';
-import { routeConfig } from './router/config';
+import { RouterProvider } from './router/config';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from 'styled-components'
 import { theme } from './components/style/theme';
@@ -12,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <RouterProvider config={routeConfig} />
+      <RouterProvider />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
