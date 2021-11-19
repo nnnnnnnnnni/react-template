@@ -1,9 +1,13 @@
 import { FC, lazy, memo, ReactElement, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
 
+const Loading: FC = () => {
+	return <div>Loading ......</div>
+}
+
 const CSuspense: FC = memo(({ children }) => {
 	return (
-		<Suspense fallback={<div>loading.......</div>}>
+		<Suspense fallback={<Loading />}>
 			{children}
 		</Suspense>
 	)
