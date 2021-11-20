@@ -1,19 +1,9 @@
 import { FC } from "react"
-import styled from "@emotion/styled";
-import { BaseBox } from ".";
+import { Box, Flex } from "@chakra-ui/layout";
 
-const Flex1Box = styled(BaseBox)`
-	flex: 1;
-`;
+const WidthBox: FC<{ width: number }> = ({ width, children }) => <Box width={width || 20} >{children}</Box>
 
-const WidthBox = styled(BaseBox) <{ width: number }>`
-	width: ${({ width }) => `${width}px`}
-`;
-
-const PublicPage = styled(BaseBox)`
-	width: 100%;
-	height: 100%;
-`;
+const PublicPage: FC = ({ children }) => <Box width='100%' height='100%' >{children}</Box>;
 
 export const PagePublic: FC = ({ children }) => <PublicPage>{children}</PublicPage>;
 
@@ -23,4 +13,4 @@ export const PageAdminSiderBar: FC<{ width?: number }> = ({ children, width }) =
 	)
 }
 
-export const PageAdminContant: FC = ({ children }) => <Flex1Box>{children}</Flex1Box>;
+export const PageAdminContant: FC = ({ children }) => <Flex>{children}</Flex>;

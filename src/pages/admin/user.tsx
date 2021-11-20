@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { PageAdminContant } from "../../components";
+import { PageAdminContant, SpaceHeightBox } from "../../components";
 
 const AdminUser: FC = () => {
 	return (
