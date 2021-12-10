@@ -19,11 +19,9 @@ export const globalStyle  = {
         'margin': 0,
         'padding': 0,
       
-        'font-family': 'nunito_for_arco,Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,微软雅黑,Arial,sans-serif',
-        '-webkit-font-smoothing': 'antialiased',
-        '-moz-osx-font-smoothing': 'grayscale',
-        'font-variant-numeric': 'tabular-nums',
-        'font-weight': 400,
+        fontFamily: 'nunito_for_arco,Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,微软雅黑,Arial,sans-serif',
+        fontVariantNumeric: 'tabular-nums',
+        fontWeight: 400,
       },
       '#root': {
         'display': 'flex',
@@ -34,7 +32,7 @@ export const globalStyle  = {
       
       'button': {
         'border': 'none',
-        'box-shadow': 'none',
+        boxShadow: 'none',
         'outline': 'none',
         'appearance': 'none',
       },
@@ -45,14 +43,14 @@ export const globalStyle  = {
       },
       
       'a': {
-        'text-decoration': 'none',
+        textDecoration: 'none',
       },
       
       'input': {
-        'min-width': 0,
+        minWidth: 0,
         'appearance': 'none',
         'border': 'none',
-        'box-shadow': 'none',
+        boxShadow: 'none',
       },
       
       'p, span': {
@@ -61,7 +59,7 @@ export const globalStyle  = {
       
       '*::-webkit-scrollbar': {
         'width': '2px',
-        'border-radius': '2px',
+        borderRadius: '2px',
       },
       
       'h1, h2, h3, h4, h5, h6': {

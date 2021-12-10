@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { PageAdminSiderBar } from "../../components";
 import { List, ListItem } from "@chakra-ui/react";
 

@@ -1,61 +1,132 @@
-import { FC, lazy, memo, ReactElement, Suspense, useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
+import React, {
+  cloneElement,
+  createElement,
+  FC,
+  lazy,
+  memo,
+  ReactElement,
+  Suspense,
+  useEffect,
+} from "react";
+import { useLocation, Navigate, useRoutes } from "react-router-dom";
 
 const Loading: FC = () => {
-	return <div>Loading ......</div>
-}
+  return <div>Loading ......</div>;
+};
 
 const CSuspense: FC = memo(({ children }) => {
-	return (
-		<Suspense fallback={<Loading />}>
-			{children}
-		</Suspense>
-	)
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
 });
 
-interface Componentprops {
-	component: ReactElement | JSX.Element;
-	title?: string;
-	needLogin?: boolean;
+const componentHOC = (
+  component?: ReactElement,
+  title?: string,
+  needLogin?: boolean
+) => {
+  const location = useLocation();
+  useEffect(() => {
+    document.title = title || "";
+  });
+
+  if (needLogin && !localStorage.getItem("user")) {
+    return <Navigate to="/login" state={{ from: location.pathname }}></Navigate>;
+  } else {
+    return <CSuspense>{component}</CSuspense>;
+  }
+};
+
+const Err404 = lazy(() => import("../pages/error/404"));
+
+const Home = lazy(() => import("../pages/public/home"));
+const User = lazy(() => import("../pages/public/user"));
+const About = lazy(() => import("../pages/public/about"));
+const Login = lazy(() => import("../pages/public/login"));
+
+const SiderBar = lazy(() => import("../pages/admin/sidebar"));
+const AdminUser = lazy(() => import("../pages/admin/user"));
+
+interface IConfig {
+  path?: string;
+  name: string;
+  element?: ReactElement;
+  index?: boolean;
+  needLogin?: boolean;
+  children?: IConfig[];
 }
 
-const Common: FC<Componentprops> = ({ component, title, needLogin }) => {
-	const location = useLocation();
-	useEffect(() => {
-		document.title = title || '';
-	});
+export const config: IConfig[] = [
+  {
+    path: "/",
+    name: "首页",
+    element: <Home />,
+  },
+  {
+    path: "/login",
+    name: "登陆",
+    element: <Login />,
+  },
+  {
+    path: "/user",
+    name: "用户",
+    element: <User />,
+  },
+  {
+    path: "/about",
+    name: "关于",
+    element: <About />,
+  },
+  {
+    path: "/admin",
+    name: "关于",
+    element: <SiderBar />,
+    needLogin: true,
+    children: [
+      {
+        index: true,
+        name: "null page",
+        element: <div>null page</div>,
+      },
+      {
+        path: "user",
+        name: "管理-用户",
+        element: <AdminUser />,
+      },
+    ],
+  },
+  {
+    path: "/*",
+    name: "404",
+    element: <Err404 />,
+  },
+];
 
-	if (needLogin && !localStorage.getItem('user')) {
-		return <Navigate to='/login' state={{ from: location }}></Navigate>
-	} else {
-		return <CSuspense>{component}</CSuspense>;
-	}
-}
+const genaterRouter = (config: IConfig[]): IConfig[] => {
+  const _config = config.map((route) => {
+    if (route.element) {
+      route.element = componentHOC(route.element, route.name, route.needLogin);
+    }
 
-const Err404 = lazy(() => import('../pages/error/404'));
+    return route;
+  });
 
-const Home = lazy(() => import('../pages/public/home'));
-const User = lazy(() => import('../pages/public/user'));
-const About = lazy(() => import('../pages/public/about'));
-const Login = lazy(() => import('../pages/public/login'));
+  return _config;
+};
 
-const SiderBar = lazy(() => import('../pages/admin/sidebar'));
-const AdminUser = lazy(() => import('../pages/admin/user'));
+export const App: FC = () => {
+  const _config = config.map((route) => {
+    if (route.element) {
+      route.element = componentHOC(route.element, route.name, route.needLogin);
+    }
 
-export const RouterProvider = () => {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path='/' element={<Common component={<Home />} title='首页' />} />
-				<Route path='/login' element={<Common component={<Login />} title='登陆' />} />
-				<Route path='/user' element={<Common component={<User />} title='用户' />} />
-				<Route path='/about' element={<Common component={<About />} title='关于' />} />
-				<Route path='/admin' element={<Common component={<SiderBar />} title='管理' needLogin={true} />} >
-					<Route index={true} element={<Common component={<div>null page</div>} title='null-page' />} />
-					<Route path='user' element={<Common component={<AdminUser />} title='管理-用户' />} />
-				</Route>
-				<Route path='/*' element={<Common component={<Err404 />} title='404' />} />
-			</Routes>
-		</BrowserRouter>
-	)
-}
+    if (route.children && route.children.length) {
+      route.children = genaterRouter(route.children);
+    }
+
+    return route;
+  });
+
+  // const element = useRoutes(config);
+  const Element = useRoutes(_config);
+
+  return Element;
+};
