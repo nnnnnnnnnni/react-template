@@ -1,5 +1,4 @@
-import React, {
-  cloneElement,
+import {
   createElement,
   FC,
   lazy,
@@ -8,7 +7,12 @@ import React, {
   Suspense,
   useEffect,
 } from "react";
-import { useLocation, Navigate, useRoutes } from "react-router-dom";
+import {
+  useLocation,
+  Navigate,
+  useRoutes,
+  BrowserRouter,
+} from "react-router-dom";
 
 const Loading: FC = () => {
   return <div>Loading ......</div>;
@@ -18,20 +22,29 @@ const CSuspense: FC = memo(({ children }) => {
   return <Suspense fallback={<Loading />}>{children}</Suspense>;
 });
 
+const withTitle = (component?: ReactElement, title?: string): FC => {
+  const Inner: FC = () => {
+    useEffect(() => {
+      document.title = title || "";
+    });
+
+    return component || null;
+  };
+
+  return Inner;
+};
+
 const componentHOC = (
   component?: ReactElement,
   title?: string,
   needLogin?: boolean
 ) => {
   const location = useLocation();
-  useEffect(() => {
-    document.title = title || "";
-  });
 
   if (needLogin && !localStorage.getItem("user")) {
-    return <Navigate to="/login" state={{ from: location.pathname }}></Navigate>;
+    return <Navigate to="/login" state={{ from: location.pathname }} />;
   } else {
-    return <CSuspense>{component}</CSuspense>;
+    return <CSuspense>{createElement(withTitle(component, title))}</CSuspense>;
   }
 };
 
@@ -105,6 +118,9 @@ const genaterRouter = (config: IConfig[]): IConfig[] => {
     if (route.element) {
       route.element = componentHOC(route.element, route.name, route.needLogin);
     }
+    if (route.children && route.children.length) {
+      route.children = genaterRouter(route.children);
+    }
 
     return route;
   });
@@ -125,8 +141,15 @@ export const App: FC = () => {
     return route;
   });
 
-  // const element = useRoutes(config);
   const Element = useRoutes(_config);
 
   return Element;
+};
+
+export const RouterProvier: FC = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
 };
